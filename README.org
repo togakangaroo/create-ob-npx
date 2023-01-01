@@ -1,0 +1,16 @@
+
+
+#+begin_src emacs-lisp :results silent
+  (create-ob-npx "ob-typescript" "typescript")
+  (add-to-list 'org-babel-tangle-lang-exts '("typescript" . "ts"))
+#+end_src
+
+And then you can do
+
+#+begin_src typescript
+  const foo : string = "Hi there"
+  console.log(foo)
+#+end_src
+
+#+RESULTS:
+: Hi there
