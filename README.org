@@ -1,7 +1,8 @@
 
+Lets use this to create a typescript runner. You can run typescript directly using the npx ts-node package
 
 #+begin_src emacs-lisp :results silent
-  (create-ob-npx "ob-typescript" "typescript")
+  (create-ob-npx "ob-typescript" "typescript" "ts-node")
   (add-to-list 'org-babel-tangle-lang-exts '("typescript" . "ts"))
 #+end_src
 
@@ -14,3 +15,19 @@ And then you can do
 
 #+RESULTS:
 : Hi there
+
+
+
+Want coffeescript? that works too.
+
+#+begin_src emacs-lisp :results silent
+  (create-ob-npx "ob-coffeescript" "coffeescript" "-p coffeescript -- coffee")
+  (add-to-list 'org-babel-tangle-lang-exts '("coffeescript" . "coffee"))
+#+end_src
+
+#+begin_src coffeescript
+  console.log "#{ 22 / 7 } is a decent approximation of π"
+#+end_src
+
+#+RESULTS:
+: 3.142857142857143 is a decent approximation of π

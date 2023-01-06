@@ -1,10 +1,10 @@
 ;;; create-ob-npx.el --- Builder macro for org babel packages that delegate to npx
 
-(defmacro create-ob-npx (name language)
-  (let ((default-header-args (make-symbol (format "org-babel-default-header-args:%2$s" name language)))
-        (variable-assignments (make-symbol (format "org-babel-variable-assignments:%2$s" name language)))
-        (var-to-language (make-symbol (format "org-babel-%1$s-variable-to-%2$s" name language)))
-        (org-babel-execute-language (make-symbol (format "org-babel-execute:%2$s" name language))))
+(defmacro create-ob-npx (name language npx-arguments)
+  (let ((default-header-args (intern (format "org-babel-default-header-args:%2$s" name language)))
+        (variable-assignments (intern (format "org-babel-variable-assignments:%2$s" name language)))
+        (var-to-language (intern (format "org-babel-%1$s-variable-to-%2$s" name language)))
+        (org-babel-execute-language (intern (format "org-babel-execute:%2$s" name language))))
    `(progn
      (require 'ob)
 
@@ -23,12 +23,13 @@
 
      (defun ,org-babel-execute-language (body params)
        "Execute a block of typescript code using ts-node. This function is called by `org-babel-execute-src-block'"
-       (let* ((tmp-src-file (org-babel-temp-file "ts-src-" ".ts")))
+       (let* ((tmp-src-file (org-babel-temp-file "ts-src-" ".ts"))
+              (var-lines (,variable-assignments params)))
          (with-temp-file tmp-src-file
-           (insert (org-babel-expand-body:generic)
-                   body params
-                   (org-babel-variable-assignments:typescript params)))
-         (org-babel-eval (format "npx ts-node %s"
+           (insert (org-babel-expand-body:generic body params var-lines)))
+         (org-babel-eval (format "npx %s %s %s"
+                                 (or ,npx-arguments "")
+                                 (or ,default-header-args "")
                                  tmp-src-file)
                          ""))))))
 
