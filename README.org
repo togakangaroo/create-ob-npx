@@ -14,7 +14,6 @@ And then you can do
 #+end_src
 
 #+RESULTS:
-: Hi there
 
 
 
