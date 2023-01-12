@@ -22,7 +22,6 @@ Want coffeescript? that works too.
 
 #+begin_src emacs-lisp :results silent
   (create-ob-npx "ob-coffeescript" "coffeescript" "-p coffeescript -- coffee")
-  (add-to-list 'org-babel-tangle-lang-exts '("coffeescript" . "coffee"))
 #+end_src
 
 #+begin_src coffeescript
@@ -31,3 +30,22 @@ Want coffeescript? that works too.
 
 #+RESULTS:
 : 3.142857142857143 is a decent approximation of π
+
+
+
+#+begin_src emacs-lisp :results silent
+  (create-ob-npx "ob-mermaid-npx" "mmd" "-p @mermaid-js/mermaid-cli -- mmdc -o ./output.png -b transparent -i")
+#+end_src
+
+
+#+begin_src mmd :file ./output.png
+pie title Pets adopted by volunteers
+    "Dogs" : 386
+    "Cats" : 85
+    "Rats" : 15
+#+end_src
+
+#+RESULTS:
+: Generating single mermaid chart
+
+[[./output.png]]

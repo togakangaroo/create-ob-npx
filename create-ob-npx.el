@@ -27,9 +27,10 @@
               (var-lines (,variable-assignments params)))
          (with-temp-file tmp-src-file
            (insert (org-babel-expand-body:generic body params var-lines)))
-         (org-babel-eval (format "npx %s %s %s"
-                                 (or ,npx-arguments "")
-                                 (or ,default-header-args "")
-                                 tmp-src-file)
-                         ""))))))
-
+         (--> (list "npx"
+                    ,npx-arguments
+                    ,default-header-args
+                    tmp-src-file)
+              -non-nil
+              (mapconcat 'identity it " ")
+              (org-babel-eval it " ")))))))
