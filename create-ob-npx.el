@@ -1,5 +1,14 @@
 ;;; create-ob-npx.el --- Builder macro for org babel packages that delegate to npx
 
+;; Author: George Mauer
+;; Keywords: literate programming, reproducible research
+;; Homepage: https://github.com/togakangaroo/create-ob-npx
+
+;;; License:
+;; MIT <https://opensource.org/licenses/MIT>
+
+;;; Code:
+
 (defmacro create-ob-npx (name language npx-arguments &optional file-extension post-process)
   "Define an org babel language that, when the associated src block is executed, will run it through npx.
 
