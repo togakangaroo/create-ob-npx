@@ -1,6 +1,6 @@
 ;;; create-ob-npx.el --- Builder macro for org babel packages that delegate to npx
 
-(defmacro create-ob-npx (name language npx-arguments &optional file-extension)
+(defmacro create-ob-npx (name language npx-arguments &optional file-extension post-process)
   "Define an org babel language that, when the associated src block is executed, will run it through npx.
 
   Parameters and options:
@@ -9,6 +9,7 @@
   language - name of the language to be used in symbol names
   npx-arguments - ultimately we run npx <npx-arguments> org-babel-default-header-args:<language> temp-script-filename this argument should at a minimum contain the npx package to use but might contain flags and other paramters as well
   file-extension - OPTIONAL if provided, file extension that will be used when writing code to temp-script-filename
+  post-process - OPTIONAL a function that will be used to post-process output. This will be passed a string containing the stdout produced by the npx command. Useful for when you want to discard stdout and for example insert a fixed string or file contents
 
   Results of execution:
   Defines the following that can be customized as needed (see each for further documentation)
@@ -19,6 +20,7 @@
     org-babel-execute:<language> function
   "
   (let ((file-extension (or file-extension ""))
+        (post-process (or post-process (function 'identity)))
         (default-header-args (intern (format "org-babel-default-header-args:%2$s" name language)))
         (variable-assignments (intern (format "org-babel-variable-assignments:%2$s" name language)))
         (var-to-language (intern (format "org-babel-%1$s-variable-to-%2$s" name language)))
@@ -53,4 +55,5 @@
                     tmp-src-file)
               -non-nil
               (mapconcat 'identity it " ")
-              (org-babel-eval it " ")))))))
+              (org-babel-eval it " ")
+              (funcall ,post-process it)))))))
