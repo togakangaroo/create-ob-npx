@@ -6,6 +6,8 @@ Gives you the ~create-ob-npx~ macro which when executed will define an org babel
 :header-args: :exports both
 :END:
 
+(Note, if you are viewing this in github, you might want to switch to viewing the raw README.org file to see output)
+
 This means you can for exxample create the ability to evaluate typescript src blocks without the user being forced to install anything globally (besides =npm/x= itself) by using =npx= to call into the ts-node package.
 
 #+begin_src emacs-lisp :results silent
