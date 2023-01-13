@@ -1,6 +1,10 @@
 Gives you the ~create-ob-npx~ macro which when executed will define an org babel languages that evaluates code by passing it through =npx=.
 
 =npx= is a utility (installed alongside more reent versions of =npm=) that will install an =npm= package and dependencies into a sandbox and execute a binary or other node command within it.
+* Examples
+:PROPERTIES:
+:header-args: :exports both
+:END:
 
 This means you can for exxample create the ability to evaluate typescript src blocks without the user being forced to install anything globally (besides =npm/x= itself) by using =npx= to call into the ts-node package.
 
