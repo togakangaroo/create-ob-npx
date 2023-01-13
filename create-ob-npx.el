@@ -9,10 +9,16 @@
 
 ;;; Code:
 
-(defmacro create-ob-npx (name language npx-arguments &optional file-extension post-process)
+(cl-defmacro create-ob-npx (&key (name (user-error "name keyword required"))
+                            &key (language (user-error "language keyword required"))
+                            &key (npx-arguments (user-error "npx-arguments keyword required"))
+                            &key (file-extension "")
+                            &key (post-process (function 'identity)))
   "Define an org babel language that, when the associated src block is executed, will run it through npx.
 
-  Parameters and options:
+  Parameters:
+
+  All parameters are are labeled with keywords. No positional parameters
 
   name - name of the plugin to be used in symbol names and file names
   language - name of the language to be used in symbol names
@@ -28,9 +34,7 @@
     org-babel-<name>-variable-to-<language> function
     org-babel-execute:<language> function
   "
-  (let ((file-extension (or file-extension ""))
-        (post-process (or post-process (function 'identity)))
-        (default-header-args (intern (format "org-babel-default-header-args:%2$s" name language)))
+  (let ((default-header-args (intern (format "org-babel-default-header-args:%2$s" name language)))
         (variable-assignments (intern (format "org-babel-variable-assignments:%2$s" name language)))
         (var-to-language (intern (format "org-babel-%1$s-variable-to-%2$s" name language)))
         (org-babel-execute-language (intern (format "org-babel-execute:%2$s" name language))))
