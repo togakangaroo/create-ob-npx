@@ -70,3 +70,18 @@ pie title Pets adopted by volunteers
 #+RESULTS:
 [[file:./output.png]]
 
+
+One more, some clojurescript
+
+#+begin_src emacs-lisp :results silent
+  (create-ob-npx :name "ob-nbb"
+                 :language "clojurescript"
+                 :npx-arguments "nbb")
+#+end_src
+
+#+begin_src clojurescript
+  (prn (+ 1 2 3))
+#+end_src
+
+#+RESULTS:
+: 6
