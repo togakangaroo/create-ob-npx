@@ -9,6 +9,9 @@
 
 ;;; Code:
 
+(defvar create-ob-npx:npx-command "npx"
+  "Command to be executed in order to invoke npx. Potentially the path to npx, or just \"npx\" if already on PATH")
+
 (cl-defmacro create-ob-npx (&key (name (user-error "name keyword required"))
                             &key (language (user-error "language keyword required"))
                             &key (npx-arguments (user-error "npx-arguments keyword required"))
@@ -62,7 +65,7 @@
               (var-lines (,variable-assignments params)))
          (with-temp-file tmp-src-file
            (insert (org-babel-expand-body:generic body params var-lines)))
-         (--> (list "npx"
+         (--> (list ,create-ob-npx:npx-command
                     ,npx-arguments
                     ,default-header-args
                     tmp-src-file)

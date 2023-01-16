@@ -18,7 +18,7 @@ This means you can for exxample create the ability to evaluate typescript src bl
   (add-to-list 'org-babel-tangle-lang-exts '("typescript" . "ts"))
 #+end_src
 
-Note that for typescript to be interpreted as typescript by ts-node, the ".ts" file extension is required
+Note that for typescript to be interpreted as typescript by ts-node, the ".ts" file extension is required. Also note that if you already have [[https://github.com/lurdan/ob-typescript][ob-typescript]] installed from MELPA (which is great, but somewhat different and doesn't use ~npx~, you might have to clear out ~org-babel-default-header-args:typescript~ which would be set to the other plugin's value.
 
 #+begin_src typescript
   const foo : string = "Hi there"
