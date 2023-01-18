@@ -56,8 +56,14 @@
              (org-babel--get-vars params)))
 
      (defun ,var-to-language (value)
-      "Convert value to language-specific syntax."
-      (json--with-output-to-string (json--print value)))
+      ,(format "Convert value to %s-specific syntax." language)
+      ;; Note that in the case of plain-ol javascript which is the default, variable values when supplied from org tables or lists will be lists of lists. The json-encode function assumes this is a plist and tries to convert it to an object. For nested lists, we shoudl be calling json-encode-array.
+      (if-let* ((first-item (and (listp value) (car value)))
+                (length-of-first-item (and (listp first-item) (length first-item)))
+                (is-table (--every (and (listp it) (eq length-of-first-item (length it))) value)))
+               (json-encode-array value)
+               (json-encode value)))
+
 
      (defun ,org-babel-execute-language (body params)
        ,(format "Execute a block of %s code using npx with arguments: '%s'. This function is called by org-babel-execute-src-block" language npx-arguments)
